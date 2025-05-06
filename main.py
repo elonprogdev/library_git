@@ -12,6 +12,7 @@ categories = {
     5: {"name": "Детская литература"}
 }
 
+
 books = {
     1: {"title": "Дюна", "author": "Фрэнк Герберт", "category_id": 1},
     2: {"title": "Солярис", "author": "Станислав Лем", "category_id": 1},
@@ -24,10 +25,6 @@ books = {
     9: {"title": "Малыш и Карлсон", "author": "Астрид Линдгрен", "category_id": 5},
     10: {"title": "Гарри Поттер и философский камень", "author": "Дж. К. Роулинг", "category_id": 5}
 }
-
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
 
 
 @app.route('/')
@@ -44,35 +41,16 @@ def index():
         selected_category=selected_category
     )
         
-@app.route('/add_book', methods=['GET', 'POST'])
-def add_book():
-    if request.method == 'POST':
-        title = request.form.get('title', '').strip()
-        author = request.form.get('author', '').strip()
-        category_id = int(request.form.get('category_id'))
+@app.route('/delete/<book_id>')
+def delete(book_id):
+    book = books.pop(int(book_id), None)
+    print(books)
+    if book:
+        flash(f"Книга '{book['title']}' удалена!")
+    else:
+        flash("Книга не найдена.")
+    return redirect(url_for('index'))
 
-        if title and author and category_id:
-            new_id = max(books.keys(), default=0) + 1
-            books[new_id] = {
-                "title": title,
-                "author": author,
-                "category_id": category_id
-            }
-            flash(f"Книга '{title}' добавлена!")
-            return redirect(url_for('index'))
-        else:
-            flash("Пожалуйста, заполните все поля.")
-
-    return render_template("add_book.html", categories=categories)
-# @app.route("/about")
-# def about():
-#     return render_template("about.html")
-
-# @app.route ("/input_data", methods=["GET"])
-# def input_data():
-#     name = request.args["name"]
-#     age = request.args["age"]
-#     return redirect(url_for('index', name=name, age=age))
 
 
 
