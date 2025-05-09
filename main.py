@@ -26,7 +26,6 @@ books = {
 }
 
 
-
 @app.route('/')
 def index():
     selected_category = request.args.get("category", type=int)
