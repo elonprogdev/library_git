@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        input, button { padding: 5px 10px; }
+    </style>
+</head>
+<body>
+    <h1>Поиск книг</h1>
+
+    <form method="get" action="/search">
+        <input type="text" name="q" placeholder="Введите запрос" value="{{ query }}">
+        <button type="submit">Найти</button>
+    </form>
+
+    {% if query %}
+        <h2>Результаты по запросу: "{{ query }}"</h2>
+
+        {% if results %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Категория</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in results.values() %}
+                <tr>
+                    <td>{{ book["title"] }}</td>
+                    <td>{{ book["author"] }}</td>
+                    <td>{{ categories[book["category_id"]]["name"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p><strong>Ничего не найдено!</strong></p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

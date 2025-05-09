@@ -41,7 +41,15 @@ def index():
         selected_category=selected_category
     )
         
-
+@app.route('/search')
+def search():
+    query = request.args.get("q", "").strip().lower()
+    results = {}
+    if query:
+        for id, book in books.items():
+            if query in book["title"].lower() or query in book["author"].lower():
+                results[id] = book
+    return render_template("search.html", query=query, results=results, categories=categories)
 
 if __name__ == "__main__":
     app.run(debug=True)
