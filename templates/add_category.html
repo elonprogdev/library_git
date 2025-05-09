@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить категорию</title>
+</head>
+<body>
+    
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul style="color: green;">
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post">
+    <label>Название категории:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <button type="submit">Сохранить</button>
+    <a href="{{ url_for('index') }}"><button type="button">Отмена</button></a>
+</form>
+
+</body>
+</html>
