@@ -6,6 +6,7 @@
     <title>"library_git"</title>
     <img src=" https://professor-excel.com/wp-content/uploads/2021/09/Thumbnail_Knowledge_Area_Library-450x253.jpg  " style="width: 100%; max-width: 100%; height: 300px; margin-bottom: 20px;"/>
     <h2 style="text-align: center; color: green;">Добро пожаловать на наш сайт-библиотеку!</h2>
+   
 </head>
 
 
@@ -37,6 +38,18 @@
 
     <a href="/add_book"><button>Добавить книгу</button></a>
     <a href="/add_category"><button>Добавить категорию</button></a>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <h3 style="text-align: center; color: rgb(134, 5, 38);">
+            
+            {% for msg in messages %}
+                <li>{{ msg }}</li>
+            {% endfor %}
+            
+    </h3>
+        
+    {% endif %}
+    {% endwith %}
 
   
     <table>
