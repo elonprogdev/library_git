@@ -40,6 +40,7 @@ def index():
         categories=categories,
         selected_category=selected_category
     )
+
         
 @app.route('/delete/<book_id>')
 def delete(book_id):
