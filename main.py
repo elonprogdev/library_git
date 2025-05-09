@@ -25,10 +25,6 @@ books = {
     10: {"title": "Гарри Поттер и философский камень", "author": "Дж. К. Роулинг", "category_id": 5}
 }
 
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
-
 
 @app.route('/')
 def index():
@@ -64,16 +60,6 @@ def add_book():
             flash("Пожалуйста, заполните все поля.")
 
     return render_template("add_book.html", categories=categories)
-# @app.route("/about")
-# def about():
-#     return render_template("about.html")
-
-# @app.route ("/input_data", methods=["GET"])
-# def input_data():
-#     name = request.args["name"]
-#     age = request.args["age"]
-#     return redirect(url_for('index', name=name, age=age))
-
 
 
 if __name__ == "__main__":
