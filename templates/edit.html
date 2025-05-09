@@ -1,0 +1,14 @@
+<h2>Редактировать книгу</h2>
+<form method="post">
+    Название: <input type="text" name="title" value="{{ book.title }}" required><br>
+    Автор: <input type="text" name="author" value="{{ book.author }}" required><br>
+    Категория:
+    <select name="category">
+        {% for id, cat in categories.items() %}
+            <option value="{{ id }}" {% if id == book.category_id %}selected{% endif %}>
+                {{ cat.name }}
+            </option>
+        {% endfor %}
+    </select><br>
+    <button type="submit">Сохранить</button>
+</form>
