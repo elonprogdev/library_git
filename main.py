@@ -40,8 +40,31 @@ def index():
         categories=categories,
         selected_category=selected_category
     )
-        
 
+
+@app.route('/edit/<int:book_id>', methods=["GET", "POST"])
+def edit_book(book_id):
+    book = books.get(book_id)
+    if not book:
+        flash("Книга не найдена.")
+        return redirect(url_for('index'))
+
+    if request.method == "POST":
+        new_title = request.form["title"].strip()
+        new_author = request.form["author"].strip()
+        new_category_id = int(request.form["category"])
+
+        book["title"] = new_title
+        book["author"] = new_author
+        book["category_id"] = new_category_id
+
+        flash(f"Книга '{new_title}' обновлена.")
+        return redirect(url_for('index'))
+
+    return render_template("edit.html", book_id=book_id, book=book, categories=categories)
+
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
