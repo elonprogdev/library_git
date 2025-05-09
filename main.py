@@ -39,6 +39,28 @@ def index():
         selected_category=selected_category
     )
         
+@app.route('/add_category', methods=['GET', 'POST'])
+def add_category():
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+
+        if not name:
+            flash("Введите название категории!")
+            return redirect(url_for('add_category'))
+
+        # Проверим, нет ли уже такой категории
+        if any(cat["name"].lower() == name.lower() for cat in categories.values()):
+            flash(f"Категория '{name}' уже существует!")
+            return redirect(url_for('add_category'))
+
+        new_id = max(categories.keys(), default=0) + 1
+        categories[new_id] = {"name": name}
+        flash(f"Категория '{name}' добавлена!")
+        return redirect(url_for('index'))
+
+    return render_template("add_category.html")
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
