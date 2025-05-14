@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
 
 
+
 app = Flask(__name__)
 app.secret_key = 'my_very_secret_library_key' 
 
@@ -25,10 +26,6 @@ books = {
     9: {"title": "Малыш и Карлсон", "author": "Астрид Линдгрен", "category_id": 5},
     10: {"title": "Гарри Поттер и философский камень", "author": "Дж. К. Роулинг", "category_id": 5}
 }
-
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
 
 
 @app.route('/')
@@ -79,6 +76,7 @@ def add_book():
 
     return render_template("add_book.html", categories=categories)
 
+
 @app.route('/edit/<int:book_id>', methods=["GET", "POST"])
 def edit_book(book_id):
     book = books.get(book_id)
@@ -123,6 +121,17 @@ def add_category():
         return redirect(url_for('index'))
 
     return render_template("add_category.html")
+
+
+@app.route('/search')
+def search():
+    query = request.args.get("q", "").strip().lower()
+    results = {}
+    if query:
+        for id, book in books.items():
+            if query in book["title"].lower() or query in book["author"].lower():
+                results[id] = book
+    return render_template("search.html", query=query, results=results, categories=categories)
 
 
 if __name__ == "__main__":
