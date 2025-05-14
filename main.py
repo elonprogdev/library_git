@@ -26,6 +26,10 @@ books = {
     10: {"title": "Гарри Поттер и философский камень", "author": "Дж. К. Роулинг", "category_id": 5}
 }
 
+# @app.route("/")
+# def index():
+#     return render_template("index.html")
+
 
 @app.route('/')
 def index():
@@ -57,21 +61,21 @@ def delete(book_id):
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
     if request.method == 'POST':
-        title = request.form.get('title', '').strip()
-        author = request.form.get('author', '').strip()
-        category_id = int(request.form.get('category_id'))
+        name = request.form.get('name', '').strip()
 
-        if title and author and category_id:
-            new_id = max(books.keys(), default=0) + 1
-            books[new_id] = {
-                "title": title,
-                "author": author,
-                "category_id": category_id
-            }
-            flash(f"Книга '{title}' добавлена!")
-            return redirect(url_for('index'))
-        else:
-            flash("Пожалуйста, заполните все поля.")
+        if not name:
+            flash("Введите название категории!")
+            return redirect(url_for('add_category'))
+
+        # Проверим, нет ли уже такой категории
+        if any(cat["name"].lower() == name.lower() for cat in categories.values()):
+            flash(f"Категория '{name}' уже существует!")
+            return redirect(url_for('add_category'))
+
+        new_id = max(categories.keys(), default=0) + 1
+        categories[new_id] = {"name": name}
+        flash(f"Категория '{name}' добавлена!")
+        return redirect(url_for('index'))
 
     return render_template("add_book.html", categories=categories)
 
@@ -98,6 +102,28 @@ def edit_book(book_id):
 
 
     
+
+@app.route('/add_category', methods=['GET', 'POST'])
+def add_category():
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+
+        if not name:
+            flash("Введите название категории!")
+            return redirect(url_for('add_category'))
+
+        # Проверим, нет ли уже такой категории
+        if any(cat["name"].lower() == name.lower() for cat in categories.values()):
+            flash(f"Категория '{name}' уже существует!")
+            return redirect(url_for('add_category'))
+
+        new_id = max(categories.keys(), default=0) + 1
+        categories[new_id] = {"name": name}
+        flash(f"Категория '{name}' добавлена!")
+        return redirect(url_for('index'))
+
+    return render_template("add_category.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
