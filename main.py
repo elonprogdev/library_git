@@ -12,6 +12,7 @@ categories = {
     5: {"name": "Детская литература"}
 }
 
+
 books = {
     1: {"title": "Дюна", "author": "Фрэнк Герберт", "category_id": 1},
     2: {"title": "Солярис", "author": "Станислав Лем", "category_id": 1},
@@ -39,7 +40,20 @@ def index():
         categories=categories,
         selected_category=selected_category
     )
+
         
+@app.route('/delete/<book_id>')
+def delete(book_id):
+    book = books.pop(int(book_id), None)
+    print(books)
+    if book:
+        flash(f"Книга '{book['title']}' удалена!")
+    else:
+        flash("Книга не найдена.")
+    return redirect(url_for('index'))
+
+
+
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
     if request.method == 'POST':
